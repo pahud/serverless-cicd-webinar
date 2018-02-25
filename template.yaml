@@ -48,7 +48,8 @@ Resources:
       #     - webinarDemo
       #     - Arn
       FunctionName:
-        'Fn::Sub': '${webinarDemo.Arn}:live'
+        'Fn::Sub': '${webinarDemo.Arn}'
+        # 'Fn::Sub': '${webinarDemo.Arn}:live'
       Principal: apigateway.amazonaws.com
       SourceArn:
         'Fn::Sub': 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*'
@@ -60,12 +61,14 @@ Resources:
       # AlarmActions:
       #   - String
       AlarmDescription: 'APIG Too Many 4XX Error Alarm'
-      AlarmName: 'APIGTooMany4XXError'
+      AlarmName:
+        'Fn::Sub': 'APIGTooMany4XXError-${AWS::StackName}'
       ComparisonOperator: 'GreaterThanOrEqualToThreshold'
       Dimensions:
         - 
           Name: 'ApiName'
-          Value: 'cloud9-webinarDemo'
+          Value: 
+            'Fn::Sub': 'cloud9-${AWS::StackName}'
         -
           Name: 'Stage'
           Value: 'Prod'
