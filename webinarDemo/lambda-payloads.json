@@ -1,0 +1,19 @@
+{
+    "webinarDemo": {
+        "apigateway": {
+            "path": "/version",
+            "method": {
+                "value": "GET",
+                "items": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "DELETE",
+                    "HEAD",
+                    "OPTIONS",
+                    "PATCH"
+                ]
+            }
+        }
+    }
+}
