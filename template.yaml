@@ -68,7 +68,7 @@ Resources:
         - 
           Name: 'ApiName'
           Value: 
-            'Fn::Sub': 'cloud9-${AWS::StackName}'
+            'Fn::Sub': '${AWS::StackName}'
         -
           Name: 'Stage'
           Value: 'Prod'
