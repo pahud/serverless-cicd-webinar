@@ -24,11 +24,11 @@ Resources:
         # Type: Canary10Percent10Minutes
         # Type: Canary10Percent15Minutes
         # Type: Canary10Percent30Minutes
-        Type: Linear10PercentEvery1Minute 
+        # Type: Linear10PercentEvery1Minute 
         # Type: Linear10PercentEvery2Minute 
         # Type: Linear10PercentEvery3Minute 
         # Type: Linear10PercentEvery10Minute 
-        #Type: AllAtOnce
+        Type: AllAtOnce
         Alarms:
           #- APIGTooMany4XXError
           - !Ref APIGTooMany4XXErrorAlarm
@@ -39,21 +39,7 @@ Resources:
           # # Validation Lambda functions that are run before & after traffic shifting
           # PreTraffic: !Ref PreTrafficLambdaFunction
           # PostTraffic: !Ref PostTrafficLambdaFunction      
-  webinarDemoPermission:
-    Type: 'AWS::Lambda::Permission'
-    Properties:
-      Action: 'lambda:InvokeFunction'
-      # FunctionName:
-      #   'Fn::GetAtt':
-      #     - webinarDemo
-      #     - Arn
-      FunctionName:
-        'Fn::Sub': '${webinarDemo.Arn}'
-        # 'Fn::Sub': '${webinarDemo.Arn}:live'
-      Principal: apigateway.amazonaws.com
-      SourceArn:
-        'Fn::Sub': 'arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:*/*/*/*'
-
+  
   APIGTooMany4XXErrorAlarm:
     Type: 'AWS::CloudWatch::Alarm'
     Properties:
@@ -86,3 +72,12 @@ Resources:
       Threshold: '1'
       TreatMissingData: 'notBreaching'
       Unit: 'Count'    
+Outputs:
+  TestVersionUrl:
+    Description: "Test Version URL"
+    Value: 
+      'Fn::Sub': "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/version"
+  Test4XXUrl:
+    Description: "Test 4XX error URL"
+    Value: 
+      'Fn::Sub': "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/return400"
